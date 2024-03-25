@@ -1,0 +1,51 @@
+CREATE TABLE years (
+id SERIAL PRIMARY KEY,
+year_ INTEGER NOT NULL
+);
+
+CREATE TABLE albums (
+id SERIAL PRIMARY KEY,
+album VARCHAR(60) NOT NULL,
+year_ INTEGER NOT NULL REFERENCES years(id)
+);
+
+CREATE TABLE tracks (
+id SERIAL PRIMARY KEY,
+track VARCHAR(60) NOT NULL,
+duration INTEGER NOT NULL,
+album INTEGER NOT NULL REFERENCES albums(id)
+);
+
+CREATE TABLE collections (
+id SERIAL PRIMARY KEY,
+collection VARCHAR(60) NOT NULL,
+year_ INTEGER NOT NULL REFERENCES years(id)
+);
+
+CREATE TABLE collection_track (
+collection_id INTEGER REFERENCES collections(id),
+track_id INTEGER REFERENCES tracks(id),
+CONSTRAINT pr1 PRIMARY KEY (collection_id, track_id)
+);
+
+CREATE TABLE musicians (
+id SERIAL PRIMARY KEY,
+musician VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE album_musician (
+album_id INTEGER REFERENCES albums(id),
+musician_id INTEGER REFERENCES musicians(id),
+CONSTRAINT pr2 PRIMARY KEY (album_id, musician_id)
+);
+
+CREATE TABLE genres (
+id SERIAL PRIMARY KEY,
+genre VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE musician_genre (
+musician_id INTEGER REFERENCES musicians(id),
+genre_id INTEGER REFERENCES genres(id),
+CONSTRAINT pr3 PRIMARY KEY (musician_id, genre_id)
+);
